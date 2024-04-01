@@ -5,6 +5,6 @@ app.get("/", (req, res) => {
   res.send("Server is running...");
 });
 
-app.listen(4000, () => {
+app.listen(process.env.PORT, () => {
   console.log("server running on port http://localhost:4000");
 });
