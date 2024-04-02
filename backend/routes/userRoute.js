@@ -1,13 +1,13 @@
 
 import express from 'express';
-import { signUp } from '../controller/userController.js';
+import { patientRegister } from '../controller/userController.js';
 
 
 const router = express.Router();
 
 
 // message public route 
-router.post("/signup",signUp)
+router.post("/signup",patientRegister)
 
 
 export default router

@@ -1,67 +1,25 @@
 import { User } from "../models/userSchema.js";
+import {catchAsyncError} from '../middleware/catchAsyncError.js'
+import ErrorHandler from '../middleware/errorMiddleware.js'
 
-// create User
-export const signUp = async (req, res, next) => {
-  try {
-    const {
-      firstName,
-      lastName,
-      email,
-      phone,
-      dob,
-      gender,
-      password,
-      role,
-      doctorDepartment,
-      docAvatoar,
-    } = req.body;
+// wrap all controller function in asyncerror handler
+export const patientRegister = catchAsyncError(async(req,res,next)=>{
+        const {firstName,lastName,email,phone,dob,gender,password,role,doctorDepartment,docAvatoar} = req.body;
 
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !phone ||
-      !dob ||
-      !gender ||
-      !password ||
-      !role
-    ) {
-      res.status(500).json({
-        success: false,
-        message: "All Fields Are required please check in...",
-      });
-    }
+        if(!firstName || !lastName || !email || !phone  || !dob || !gender || !password || !role ){
+            return next(new ErrorHandler("Please Fill all fields ",400))
+        }
 
-    const userData = await User.create({
-      firstName,
-      lastName,
-      email,
-      phone,
-      dob,
-      gender,
-      password,
-      role,
-      docAvatoar,
-      doctorDepartment,
-    });
+        const isExist = await User.findOne({email});
 
-    const isExist = await User.findOne({ email });
+        if(isExist){
+            return next(new ErrorHandler("User already exist, plese use other email address",400))
+        }
 
-    if (isExist) {
-      res.status(411).json({
-        success: false,
-        message: "User already exist please try again using different email id",
-      });
-    }
+       await User.create({firstName,lastName,email,phone,dob,gender,password,role,doctorDepartment,docAvatoar})
 
-    res.status(200).json({
-      success: true,
-      message: "User | Admin Created Successfull..!",
-    });
-  } catch (error) {
-    res.status(411).json({
-      success: false,
-      message: "Some Thing went wrong..",
-    });
-  }
-};
+       res.status(200).json({
+        success:true,
+        message :"Patient | User registration successfull"
+       })
+})
