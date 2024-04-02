@@ -5,6 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload"; // use for upload file from file manager
 import messageRouter from "./routes/messageRoute.js";
+import userRouter from "./routes/userRoute.js";
 
 
 const app = express();
@@ -36,6 +37,7 @@ connectToDb();
 // console.log(process.env.PORT)
 
 app.use("/api/v1/",messageRouter);
+app.use("/api/v1/user",userRouter);
 
 
 export default app;
