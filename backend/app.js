@@ -4,13 +4,13 @@ import  connectToDb  from "./db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload"; // use for upload file from file manager
+import messageRouter from "./routes/messageRoute.js";
 
 
 const app = express();
 config({ path: "./config/config.env" }); // setup dotenv file 
 
 // middleware
-
 app.use(
     cors({
       origin: [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
@@ -34,6 +34,8 @@ connectToDb();
 
 
 // console.log(process.env.PORT)
+
+app.use("/api/v1/",messageRouter);
 
 
 export default app;
