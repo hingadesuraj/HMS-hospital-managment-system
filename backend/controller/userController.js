@@ -141,3 +141,12 @@ export const getAllDoctor = catchAsyncError(async(req,res,next)=>{
         doctor : doctor
     })
 })
+
+// user authenticated and get user details
+export const getUserDetails = catchAsyncError(async(req,res,next)=>{
+    const user = req.user // this user get from auth function because this route authenticated 
+    res.status(200).json({
+        success:true,
+        user : user
+    })
+})
