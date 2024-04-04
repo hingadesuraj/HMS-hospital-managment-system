@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { addNewAdmin, getAllDoctor, loginPatient, patientRegister } from '../controller/userController.js';
+import { addNewAdmin, getAllDoctor, getUserDetails, loginPatient, patientRegister } from '../controller/userController.js';
 import { isAdminAuthenticated } from '../middleware/auth.js';
 
 
@@ -12,6 +12,7 @@ router.post("/signup",patientRegister)
 router.post("/login",loginPatient);
 router.post("/admin/addnew",isAdminAuthenticated,addNewAdmin);
 router.get("/doctors",getAllDoctor)
+router.get("/userdetails",isAdminAuthenticated,getUserDetails)
 
 
 
