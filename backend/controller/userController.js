@@ -2,6 +2,8 @@ import { User } from "../models/userSchema.js";
 import { catchAsyncError } from "../middleware/catchAsyncError.js";
 import ErrorHandler from "../middleware/errorMiddleware.js";
 import { generateToken } from "../utils/jwtToken.js";
+import cloudinary from 'cloudinary'
+
 
 // wrap all controller function in asyncerror handler
 export const patientRegister = catchAsyncError(async (req, res, next) => {
@@ -191,8 +193,46 @@ export const logoutPatient = catchAsyncError((req, res, next) => {
 // add doctor
 
 export const addDoctor = catchAsyncError(async(req,res,next)=>{
+
   // check img avator upload or not if upload then ok otherwise it is require
   if(!res.files || Object.keys(req.files).length === 0){
    return next(new ErrorHandler("Docror Avator Require",400))
   }
+
+  const {docAvatoar } = req.files
+  const allowedFormats = ["image/png","image/jpeg","image/webp"]
+
+  if(!allowedFormats.includes(docAvatoar.mimetype)){
+    return next(new ErrorHandler("File Formate Not supported",400))
+  }
+
+  const {firstName,lastName,email,phone,password,gender,dob,doctorDepartment} = req.body;
+
+  if(!firstName || !lastName || !email || !phone || !password|| !gender|| !dob|| !doctorDepartment){
+    return next(new ErrorHandler("All Fields are required",400))
+  }
+
+   const isRegister = await User.findOne({email})
+
+   if(isRegister){
+    return next(new ErrorHandler(`${isRegister.role} already register with this role`,400))
+   }
+
+   const cloudinaryResponse = await cloudinary.uploader.upload(docAvatoar.tempFilePath);
+
+   if(!cloudinaryResponse || cloudinaryResponse.error){
+    console.error("Cloudinary Error :",cloudinaryResponse.error || "Unknown Cloudinary Error")
+   }
+
+
+  const doctor = await User.create({firstName,lastName,email,phone,password,gender,dob,doctorDepartment,role:"Doctor",docAvatoar:{
+    public_id:cloudinaryResponse.public_id,
+    url:cloudinaryResponse.secure_url
+  }})
+
+ res.status(200),json({
+  success:true,
+    message:"Doctor Created successfull."
+ })
+
 })
