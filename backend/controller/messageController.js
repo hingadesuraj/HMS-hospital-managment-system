@@ -1,6 +1,8 @@
 import { Message } from "../models/messageSchema.js";
+import {catchAsyncError} from '../middleware/catchAsyncError.js'
+import ErrorHandler from '../middleware/errorMiddleware.js'
 
-export const messageController = async (req, res, next) => {
+export const messageController = catchAsyncError(async (req, res, next) => {
   const { firstName, lastName, email, phone, message } = req.body;
 
   try {
@@ -23,4 +25,4 @@ export const messageController = async (req, res, next) => {
       message: "some thing went wrong" + error.message,
     });
   }
-};
+});
