@@ -186,3 +186,13 @@ export const logoutPatient = catchAsyncError((req, res, next) => {
       message: "Patient Logout Successfull..",
     });
 });
+
+
+// add doctor
+
+export const addDoctor = catchAsyncError(async(req,res,next)=>{
+  // check img avator upload or not if upload then ok otherwise it is require
+  if(!res.files || Object.keys(req.files).length === 0){
+   return next(new ErrorHandler("Docror Avator Require",400))
+  }
+})
