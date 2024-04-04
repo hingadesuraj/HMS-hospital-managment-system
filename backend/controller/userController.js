@@ -38,7 +38,7 @@ export const loginPatient = catchAsyncError(async(req,res,next)=>{
     }
 
     const user = await User.findOne({email}).select("+password");
-    console.log(user)
+    // console.log(user)
     if(!user){
         return next(new ErrorHandler("Invalid email id ",400));
     }
