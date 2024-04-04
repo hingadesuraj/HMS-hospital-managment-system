@@ -22,8 +22,8 @@ const userSchema = new mongoose.Schema({
     phone: {
       type: String,
       required: true,
-      minLength: [11, "Phone number must be contain 11 digits"],
-      maxLength:[11,"Phone number must be contain 11 digits"]
+      minLength: [10, "Phone number must be contain 10 digits"],
+      maxLength:[10,"Phone number must be contain 10 digits"]
     },
     // nic:{
     //     type:String,
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        minLength:[11,'Password contain  At least 8 character'],
+        // minLength:[11,'Password contain  At least 8 character'],
         required:true,
         select:false,
     },
