@@ -1,6 +1,7 @@
 import { User } from "../models/userSchema.js";
 import {catchAsyncError} from '../middleware/catchAsyncError.js'
 import ErrorHandler from '../middleware/errorMiddleware.js'
+import { generateToken } from "../utils/jwtToken.js";
 
 // wrap all controller function in asyncerror handler
 export const patientRegister = catchAsyncError(async(req,res,next)=>{
@@ -52,16 +53,18 @@ export const loginPatient = catchAsyncError(async(req,res,next)=>{
         return next(new ErrorHandler("User with this role not found ",400))
     }
 
-    const token = await user.generateJsonWebToken()
+    // const token = await user.generateJsonWebToken()
 
     // console.log(token)
+
+    generateToken(user,"User Login Successfull.",200,res)
    
 
-    res.status(200).json({
-        success:true,
-        message:"Login Successfull!",
-        token:token
-    })
+    // res.status(200).json({
+    //     success:true,
+    //     message:"Login Successfull!",
+    //     token:token
+    // })
     
 
      

@@ -1,5 +1,6 @@
-export const generateToken = (user, message, stausCode, res) => {
-  const token = user.generateJsonWebToken();
+export const generateToken = async (user, message, stausCode, res) => {
+  const token = await user.generateJsonWebToken();
+  console.log(token)
   const cookieName = user.role === "Admin" ? "adminToken" : "patientToken";
   res
     .status(stausCode)
