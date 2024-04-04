@@ -115,38 +115,74 @@ export const addNewAdmin = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Please Fill all fields ", 400));
   }
 
-
-  const isRegister = await User.findOne({email});
-  if(isRegister){
-    return next(new ErrorHandler("Admin with this email already exist",400))
+  const isRegister = await User.findOne({ email });
+  if (isRegister) {
+    return next(new ErrorHandler("Admin with this email already exist", 400));
   }
 
-  User.create({ firstName, lastName, email, phone, dob, gender, password,role: "Admin" })
+  User.create({
+    firstName,
+    lastName,
+    email,
+    phone,
+    dob,
+    gender,
+    password,
+    role: "Admin",
+  });
 
   res.status(200).json({
-    success:true,
-    message:"New Admin Created"
-  })
-
+    success: true,
+    message: "New Admin Created",
+  });
 });
-
 
 // get all doctor
 
-export const getAllDoctor = catchAsyncError(async(req,res,next)=>{
-    const doctor = await User.find({role:"Doctor"});
-    res.status(200).json({
-        success:true,
-        message:"All Doctor Fetch ",
-        doctor : doctor
-    })
-})
+export const getAllDoctor = catchAsyncError(async (req, res, next) => {
+  const doctor = await User.find({ role: "Doctor" });
+  res.status(200).json({
+    success: true,
+    message: "All Doctor Fetch ",
+    doctor: doctor,
+  });
+});
 
 // user authenticated and get user details admin | Patient
-export const getUserDetails = catchAsyncError(async(req,res,next)=>{
-    const user = req.user // this user get from auth function because this route authenticated 
-    res.status(200).json({
-        success:true,
-        user : user
+export const getUserDetails = catchAsyncError(async (req, res, next) => {
+  const user = req.user; // this user get from auth function because this route authenticated
+  res.status(200).json({
+    success: true,
+    user: user,
+  });
+});
+
+// logout Admin
+
+export const logoutAdmin = catchAsyncError((req, res, next) => {
+  res
+    .status(200)
+    .cookie("adminToken", "", {
+      httpOnly: true,
+      expires: new Date(Date.now()),
     })
-})
+    .json({
+      success: true,
+      message: "Admin Logout Successfull..",
+    });
+});
+
+// logout Patient
+
+export const logoutPatient = catchAsyncError((req, res, next) => {
+  res
+    .status(200)
+    .cookie("patientToken", "", {
+      httpOnly: true,
+      expires: new Date(Date.now()),
+    })
+    .json({
+      success: true,
+      message: "Patient Logout Successfull..",
+    });
+});
