@@ -101,15 +101,31 @@ export const loginPatient = catchAsyncError(async (req, res, next) => {
 // Add new Admin in database using old admin
 
 export const addNewAdmin = catchAsyncError(async (req, res, next) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    phone,
-    dob,
-    gender,
-    password,
-    doctorDepartment,
-    docAvatoar,
-  } = req.body;
+  const { firstName, lastName, email, phone, dob, gender, password } = req.body;
+
+  if (
+    !firstName ||
+    !lastName ||
+    !email ||
+    !phone ||
+    !dob ||
+    !gender ||
+    !password
+  ) {
+    return next(new ErrorHandler("Please Fill all fields ", 400));
+  }
+
+
+  const isRegister = await User.findOne({email});
+  if(isRegister){
+    return next(new ErrorHandler("Admin with this email already exist",400))
+  }
+
+  User.create({ firstName, lastName, email, phone, dob, gender, password,role: "Admin" })
+
+  res.status(200).json({
+    success:true,
+    message:"New Admin Created"
+  })
+
 });
