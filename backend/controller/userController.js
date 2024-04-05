@@ -195,12 +195,15 @@ export const logoutPatient = catchAsyncError((req, res, next) => {
 export const addDoctor = catchAsyncError(async(req,res,next)=>{
 
   // check img avator upload or not if upload then ok otherwise it is require
-  if(!res.files || Object.keys(req.files).length === 0){
-   return next(new ErrorHandler("Docror Avator Require",400))
+  if(!req.files || Object.keys(req.files).length === 0){
+   return next(new ErrorHandler("Doctor Avator Require",400))
   }
 
-  
+  // console.log(req.files.docAvatoar)
+
+
   const {docAvatoar } = req.files
+  // console.log(docAvatoar) 
   const allowedFormats = ["image/png","image/jpeg","image/webp"] 
 
   if(!allowedFormats.includes(docAvatoar.mimetype)){
@@ -225,14 +228,16 @@ export const addDoctor = catchAsyncError(async(req,res,next)=>{
     console.error("Cloudinary Error :",cloudinaryResponse.error || "Unknown Cloudinary Error")
    }
 
+   console.log(cloudinaryResponse)
+
 
   const doctor = await User.create({firstName,lastName,email,phone,password,gender,dob,doctorDepartment,role:"Doctor",docAvatoar:{
     public_id:cloudinaryResponse.public_id,
     url:cloudinaryResponse.secure_url
   }})
 
- res.status(200),json({
-  success:true,
+ res.status(200).json({
+    success:true,
     message:"Doctor Created successfull."
  })
 
