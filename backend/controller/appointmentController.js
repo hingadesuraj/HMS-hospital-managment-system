@@ -1,3 +1,4 @@
+import app from "../app.js";
 import { catchAsyncError } from "../middleware/catchAsyncError.js";
 import ErrorHandler from "../middleware/errorMiddleware.js";
 import {Appointment} from "../models/appointmentSchema.js";
@@ -88,5 +89,29 @@ export const getAllAppointment = catchAsyncError(async(req,res,next)=>{
         success:true,
         message:"All Appointment",
         allAppointment
+    })
+})
+
+// update appointment status
+
+export const updateAppointmentStatus = catchAsyncError(async(req,res,next)=>{
+    const {id} = req.params
+
+    const appointment = await Appointment.findById({id});
+
+    if(!appointment){
+        return next(new ErrorHandler("Appointment of this id is not found please check",404))
+    }
+
+    appointment = await Appointment.findByIdAndUpdate(id,req.body,{
+        new:true,
+        runValidators:true,
+        useFindAndModify:false
+    })
+
+    res.status(200).json({
+        success:true,
+        message:"Appointment Status Updated..",
+        appointment
     })
 })
