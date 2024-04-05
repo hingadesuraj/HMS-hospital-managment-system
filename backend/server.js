@@ -12,6 +12,7 @@ cloudinary.v2.config({
 
 app.get("/", (req, res) => {
   res.send("Server is running...");
+  // backend done
 });
 
 
