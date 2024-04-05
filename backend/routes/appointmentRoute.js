@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { getAllAppointment, postAppointment } from '../controller/appointmentController.js';
+import { getAllAppointment, postAppointment, updateAppointmentStatus } from '../controller/appointmentController.js';
 import {
     isAdminAuthenticated,
     isPatientAuthenticated,
@@ -12,6 +12,7 @@ const router = express.Router();
 // Appointment route 
  router.post("/booking",isPatientAuthenticated,postAppointment)
  router.get("/allbooking",isAdminAuthenticated,getAllAppointment)
+ router.put("/statusupdate/:id",isAdminAuthenticated,updateAppointmentStatus)
 
 
 export default router
