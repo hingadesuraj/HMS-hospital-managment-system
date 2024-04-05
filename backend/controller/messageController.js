@@ -20,6 +20,17 @@ export const messageController = catchAsyncError(async (req, res, next) => {
   });
 });
 
+// get all message
+
+export const getAllMessage = catchAsyncError(async(req,res,next)=>{
+  const allMessage = await Message.find();
+
+  res.status(200).json({
+    success:true,
+    allMessage:allMessage
+  })
+})
+
 
  
 
