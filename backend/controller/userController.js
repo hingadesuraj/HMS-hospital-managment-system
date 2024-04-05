@@ -199,6 +199,7 @@ export const addDoctor = catchAsyncError(async(req,res,next)=>{
    return next(new ErrorHandler("Docror Avator Require",400))
   }
 
+  
   const {docAvatoar } = req.files
   const allowedFormats = ["image/png","image/jpeg","image/webp"] 
 
