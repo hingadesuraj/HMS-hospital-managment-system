@@ -96,11 +96,11 @@ export const getAllAppointment = catchAsyncError(async(req,res,next)=>{
 
 export const updateAppointmentStatus = catchAsyncError(async(req,res,next)=>{
     const {id} = req.params
-    console.log(id)
+    // console.log(id)
 
     const appointment = await Appointment.findById(id);
 
-    console.log(appointment)
+    // console.log(appointment)
     if(!appointment){
         return next(new ErrorHandler("Appointment of this id is not found please check",404))
     }
@@ -116,4 +116,24 @@ export const updateAppointmentStatus = catchAsyncError(async(req,res,next)=>{
         message:"Appointment Status Updated..",
         updateAppointment
     })
+})
+
+
+// delete appointment
+
+export const deleteAppointment = catchAsyncError(async(req,res,next)=>{
+    const {id} = req.params;
+
+    const appointment = await Appointment.findById(id);
+
+    if(!appointment){
+        return next(new ErrorHandler("Appointment not found please check",404))
+    }
+
+    await Appointment.deleteOne();
+    res.status(200).json({
+        success:true,
+        message:"Appointment Delete..",
+    })
+
 })
