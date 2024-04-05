@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload"; // use for upload file from file manager
 import messageRouter from "./routes/messageRoute.js";
 import userRouter from "./routes/userRoute.js";
+import appintmentRouter from "./routes/appointmentRoute.js";
 
 
 const app = express();
@@ -38,6 +39,7 @@ connectToDb();
 
 app.use("/api/v1/",messageRouter);
 app.use("/api/v1/user",userRouter);
+app.use("/api/v1/appointment",appintmentRouter)
 
 
 export default app;
