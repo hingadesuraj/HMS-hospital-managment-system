@@ -11,7 +11,7 @@ const router = express.Router();
 
 // Appointment route 
  router.post("/booking",isPatientAuthenticated,postAppointment)
- router.get("/allbooking",getAllAppointment)
+ router.get("/allbooking",isAdminAuthenticated,getAllAppointment)
 
 
 export default router
