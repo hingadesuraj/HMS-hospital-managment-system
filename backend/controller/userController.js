@@ -195,6 +195,7 @@ export const logoutPatient = catchAsyncError((req, res, next) => {
 export const addDoctor = catchAsyncError(async(req,res,next)=>{
 
   // check img avator upload or not if upload then ok otherwise it is require
+
   if(!req.files || Object.keys(req.files).length === 0){
    return next(new ErrorHandler("Doctor Avator Require",400))
   }
@@ -222,13 +223,14 @@ export const addDoctor = catchAsyncError(async(req,res,next)=>{
     return next(new ErrorHandler(`${isRegister.role} already register with this role`,400))
    }
 
+  //  upload logic 
    const cloudinaryResponse = await cloudinary.uploader.upload(docAvatoar.tempFilePath);
 
    if(!cloudinaryResponse || cloudinaryResponse.error){
     console.error("Cloudinary Error :",cloudinaryResponse.error || "Unknown Cloudinary Error")
    }
 
-   console.log(cloudinaryResponse)
+  //  console.log(cloudinaryResponse)
 
 
   const doctor = await User.create({firstName,lastName,email,phone,password,gender,dob,doctorDepartment,role:"Doctor",docAvatoar:{
@@ -238,7 +240,8 @@ export const addDoctor = catchAsyncError(async(req,res,next)=>{
 
  res.status(200).json({
     success:true,
-    message:"Doctor Created successfull."
+    message:"Doctor Created successfull.",
+    doctor:doctor
  })
 
 })
