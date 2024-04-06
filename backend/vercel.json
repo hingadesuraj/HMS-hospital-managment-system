@@ -12,3 +12,4 @@
       { "src": "/(.*)", "dest": "/server.js" }
     ]
   }
+ // final server is running 
