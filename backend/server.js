@@ -1,8 +1,6 @@
 // using module type then must be required full path include file extension like .js,.html
 import app from "./app.js";
 import cloudinary from "cloudinary";
-import { catchAsyncError } from "./middleware/catchAsyncError.js";
-import ErrorHandler from "./middleware/errorMiddleware.js";
 
 // cloudinary setup use documentation
 cloudinary.v2.config({
@@ -13,7 +11,7 @@ cloudinary.v2.config({
 
 app.get(
   "/",
-  catchAsyncError((req, res) => {
+  (req, res) => {
     try {
       res.status(200).send("Server is running...");
       // backend done
@@ -22,10 +20,9 @@ app.get(
         success: false,
         message: "Internal Server error",
       });
-      return next(new ErrorHandler("Internal Server error", 500));
     }
   })
-);
+;
 
 // server listen port
 app.listen(process.env.PORT, () => {
