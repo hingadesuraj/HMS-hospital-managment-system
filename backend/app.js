@@ -15,7 +15,7 @@ config({ path: "./config/config.env" }); // setup dotenv file
 // middleware
 app.use(
     cors({
-      origin: [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
+      origin: [process.env.FRONTEND_URL, process.env.DASHBOARD_URL,process.env.LIVE_FRONTEND_URL],
       methods: ["GET", "POST", "PUT", "DELETE"],
       credentials: true,
     })
