@@ -11,13 +11,9 @@ import "react-toastify/dist/ReactToastify.css";
 import NotFound from "./pages/NotFound";
 
 function App() {
-
-  
-
   return (
     <>
       <BrowserRouter>
-      <ToastContainer/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
@@ -26,6 +22,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ToastContainer position="top-center" />
       </BrowserRouter>
     </>
   );
