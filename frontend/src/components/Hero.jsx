@@ -28,7 +28,7 @@ const Hero = ({ title, imageUrl }) => {
 
     <>
     <div className="flex gap-1 justify-center items-center ">
-  <div className="w-[50%] h-[550px] border-2 border-black flex flex-col justify-center items-center p-12">
+  <div className="w-[50%] h-[550px]  flex flex-col justify-center items-center p-24 pr-0">
       <h1 className="text-3xl font-bold" >{title}</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
@@ -40,10 +40,10 @@ const Hero = ({ title, imageUrl }) => {
         sapiente?
       </p>
   </div>
-  <div className="w-[50%] h-[550px] border-2 border-black flex flex-col justify-center items-center p-12">
-  <img src={imageUrl} width={15} alt="Image Url" className="h-80 w-64 " />
+  <div className="w-[50%] h-[550px]  flex flex-col justify-center items-center p-12 pl-0">
+  <img src={imageUrl}  alt="Image Url" className="h-80 w-64 mr-32" />
         <span>
-          <img src="/Vector.png" alt="" className=" absolute top-0 right-0 h-[500px] w-[450px] -z-10"  />
+          <img src="/Vector.png" alt="" className=" absolute top-10 right-20 h-[500px] w-[450px] -z-10"  />
         </span>
   </div>
 </div>
